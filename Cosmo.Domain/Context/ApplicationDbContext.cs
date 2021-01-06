@@ -4,7 +4,7 @@ using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Cosmo.Data
+namespace Cosmo.Presentation.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {

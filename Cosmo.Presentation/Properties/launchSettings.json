@@ -3,8 +3,8 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:46688",
-      "sslPort": 44329
+      "applicationUrl": "http://localhost:35404",
+      "sslPort": 44355
     }
   },
   "profiles": {
@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Cosmo": {
+    "Cosmo.Presentation": {
       "commandName": "Project",
       "launchBrowser": true,
       "applicationUrl": "http://localhost:5001;http://localhost:5000",

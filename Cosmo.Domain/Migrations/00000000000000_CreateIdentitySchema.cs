@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Cosmo.Data.Migrations
+namespace Cosmo.Presentation.Data.Migrations
 {
     public partial class CreateIdentitySchema : Migration
     {
