@@ -1,17 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <UserSecretsId>aspnet-Cosmo.Presentation-CBC66262-220C-468D-ACB0-E89F52C844A9</UserSecretsId>
+    <TargetFramework>net5.0</TargetFramework>
+    <UserSecretsId>aspnet-Cosmo.Presentation-A9770792-2EBC-40D0-A5A4-79C52590BEC8</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.10" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.1" />
   </ItemGroup>
-
+  
   <ItemGroup>
     <ProjectReference Include="..\Cosmo.Domain\Cosmo.Domain.csproj" />
     <ProjectReference Include="..\GalacticSpaceTransitAuthority\GalacticSpaceTransitAuthority.csproj" />
   </ItemGroup>
-  
+
 </Project>
