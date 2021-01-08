@@ -24,16 +24,7 @@ namespace Cosmo.Presentation.Controllers
             return View();
         }
 
-        public ViewResult Register()
-        {
-            return View();
-        }
-
-        public ViewResult Manage()
-        {
-            return View();
-        }
-
+        [Authorize(Roles = "Administrator")]
         public ViewResult Invite()
         {
             return View();
@@ -49,27 +40,6 @@ namespace Cosmo.Presentation.Controllers
 
             if (result.Succeeded) return View("Invite");
             else ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-
-            return View();
-        }
-
-        [HttpPost]
-        [AllowAnonymous]
-        public async Task<IActionResult> Register(LoginViewModel model)
-        {
-            var password = new PasswordHasher<User>();
-            var user = new User
-            {
-                UserName = model.Username,
-                NormalizedUserName = model.Username.ToUpper()
-            };
-
-            var hashed = password.HashPassword(user, model.Password);
-            user.PasswordHash = hashed;
-
-            await userManager.CreateAsync(user);
-
-            await userManager.AddToRoleAsync(user, "Administrator");
 
             return View();
         }

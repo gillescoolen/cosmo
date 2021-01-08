@@ -11,5 +11,11 @@
         <p><b>Ship Registration ID: </b>@Model.Username</p>
         <p><b>Authentication Code: </b>@Model.Password</p>
         <p><b>License Class: </b>@Model.License</p>
+
+        <form asp-action="Login">
+            <input type="hidden" asp-for="Username" class="form-control" />
+            <input type="hidden" asp-for="Password" class="form-control" />
+            <button type="submit" class="btn btn-primary">Log in</button>
+        </form>
     </div>
 </div>
