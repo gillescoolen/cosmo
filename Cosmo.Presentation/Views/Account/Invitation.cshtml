@@ -1,0 +1,15 @@
+@model Cosmo.Presentation.Models.Account.InviteViewModel
+@{
+    ViewData["Title"] = "Invitation";
+}
+
+<h1>Invitation</h1>
+
+<div class="row">
+    <div class="col-md-12">
+        <p>You have been invited.</p>
+        <p><b>Ship Registration ID: </b>@Model.Username</p>
+        <p><b>Authentication Code: </b>@Model.Password</p>
+        <p><b>License Class: </b>@Model.License</p>
+    </div>
+</div>

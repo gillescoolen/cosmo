@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Cosmo.Domain;
 using Cosmo.Presentation.Models.Account;
+using System;
 
 namespace Cosmo.Presentation.Controllers
 {
@@ -18,43 +19,84 @@ namespace Cosmo.Presentation.Controllers
             this.signInManager = signInManager;
         }
 
-        public ViewResult ManagerLogin()
+        public ViewResult Login()
+        {
+            return View();
+        }
+
+        public ViewResult Register()
+        {
+            return View();
+        }
+
+        public ViewResult Manage()
+        {
+            return View();
+        }
+
+        public ViewResult Invite()
         {
             return View();
         }
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> ManagerLogin(LoginViewModel model)
+        public async Task<IActionResult> Login(LoginViewModel model)
         {
             var result = await signInManager.PasswordSignInAsync(model.Username, model.Password, true, false);
 
-            if (result.Succeeded) return LocalRedirect("/");
+            var user = await userManager.FindByNameAsync(model.Username);
+
+            if (result.Succeeded) return View("Invite");
             else ModelState.AddModelError(string.Empty, "Invalid login attempt.");
 
             return View();
         }
 
         [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> Invite(RegistrationViewModel model)
+        [AllowAnonymous]
+        public async Task<IActionResult> Register(LoginViewModel model)
         {
+            var password = new PasswordHasher<User>();
             var user = new User
             {
-                NormalizedUserName = model.Username
+                UserName = model.Username,
+                NormalizedUserName = model.Username.ToUpper()
             };
 
-            var password = "test";
+            var hashed = password.HashPassword(user, model.Password);
+            user.PasswordHash = hashed;
 
-            var created = await userManager.CreateAsync(user, password);
+            await userManager.CreateAsync(user);
+
+            await userManager.AddToRoleAsync(user, "Administrator");
 
             return View();
         }
 
+        [HttpPost]
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> Invite(InviteViewModel model)
+        {
+            var user = new User
+            {
+                UserName = model.Username,
+                NormalizedUserName = model.Username.ToUpper(),
+                License = model.License
+            };
+
+            model.Password = Guid.NewGuid().ToString("n").Substring(0, 8);
+
+            await userManager.CreateAsync(user, model.Password);
+            await userManager.AddToRoleAsync(user, "Visitor");
+
+            return View("Invitation", model);
+        }
+
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync();
-            return Redirect("/");
+            await signInManager.SignOutAsync();
+            return View("Logout");
         }
     }
 }
