@@ -2,13 +2,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Authentication;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Cosmo.Domain;
-using Cosmo.Presentation.Models.Manager;
-using System;
+using Cosmo.Presentation.Models.Account;
 
 namespace Cosmo.Presentation.Controllers
 {

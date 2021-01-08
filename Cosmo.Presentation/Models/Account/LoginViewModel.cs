@@ -1,4 +1,4 @@
-namespace Cosmo.Presentation.Models.Manager
+namespace Cosmo.Presentation.Models.Account
 {
     public class LoginViewModel
     {
