@@ -37,12 +37,16 @@ namespace Cosmo.Presentation.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> CreateVisitor(LoginViewModel model)
+        public async Task<IActionResult> Invite(RegistrationViewModel model)
         {
-            var result = await signInManager.PasswordSignInAsync(model.Username, model.Password, true, false);
+            var user = new User
+            {
+                NormalizedUserName = model.Username
+            };
 
-            if (result.Succeeded) return LocalRedirect("/");
-            else ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+            var password = "test";
+
+            var created = await userManager.CreateAsync(user, password);
 
             return View();
         }
