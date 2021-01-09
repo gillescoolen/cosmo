@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Cosmo.Domain.Data;
 using Cosmo.Domain;
+using GalacticSpaceTransitAuthority;
 
 namespace Cosmo.Presentation
 {
@@ -68,6 +69,8 @@ namespace Cosmo.Presentation
                 options.LogoutPath = "/Account/Logout";
                 options.SlidingExpiration = true;
             });
+
+            services.AddScoped<ISpaceTransitAuthority, SpaceTransitAuthority>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

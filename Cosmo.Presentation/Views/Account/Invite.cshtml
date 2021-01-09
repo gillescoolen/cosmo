@@ -18,7 +18,12 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="License"></label>
-                    <input asp-for="License" class="form-control" />
+                    <select asp-for="License" class="form-control">
+                        <option value="A">License Type A</option>
+                        <option value="B">License Type B</option>
+                        <option value="C">License Type C</option>
+                        <option value="Z">License Type Z</option>
+                    </select>
                     <span asp-validation-for="License" class="text-danger"></span>
                 </div>
                 <div class="form-group">

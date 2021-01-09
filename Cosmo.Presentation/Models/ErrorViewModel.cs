@@ -1,6 +1,6 @@
 using System;
 
-namespace NinjaManager.Presentation.Models
+namespace Cosmo.Presentation.Models
 {
   public class ErrorViewModel
   {

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication;
 using Cosmo.Domain;
 using Cosmo.Presentation.Models.Account;
 using System;
+using System.Security.Claims;
 
 namespace Cosmo.Presentation.Controllers
 {
@@ -34,12 +35,20 @@ namespace Cosmo.Presentation.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-            var result = await signInManager.PasswordSignInAsync(model.Username, model.Password, true, false);
+            if (ModelState.IsValid)
+            {
+                var result = await signInManager.PasswordSignInAsync(model.Username, model.Password, true, false);
 
-            var user = await userManager.FindByNameAsync(model.Username);
+                if (result.Succeeded)
+                {
+                    var user = await userManager.FindByNameAsync(model.Username);
+                    var isAdministrator = await signInManager.UserManager.IsInRoleAsync(user, "Administrator");
 
-            if (result.Succeeded) return View("Invite");
-            else ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    return isAdministrator ? RedirectToAction("Invite", "Account") : RedirectToAction("Index", "Home");
+                }
+            }
+
+            ModelState.AddModelError(string.Empty, "Invalid login attempt.");
 
             return View();
         }
@@ -48,25 +57,34 @@ namespace Cosmo.Presentation.Controllers
         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Invite(InviteViewModel model)
         {
+            if (!ModelState.IsValid) return View();
+
             var user = new User
             {
                 UserName = model.Username,
-                NormalizedUserName = model.Username.ToUpper(),
+                NormalizedUserName = model.Username,
+            };
+
+            var password = Guid.NewGuid().ToString("n").Substring(0, 8);
+
+            await userManager.CreateAsync(user, password);
+            await userManager.AddToRoleAsync(user, "Visitor");
+            await userManager.AddClaimAsync(user, new Claim("License", model.License));
+
+            var invite = new InvitationViewModel
+            {
+                Username = model.Username,
+                Password = password,
                 License = model.License
             };
 
-            model.Password = Guid.NewGuid().ToString("n").Substring(0, 8);
-
-            await userManager.CreateAsync(user, model.Password);
-            await userManager.AddToRoleAsync(user, "Visitor");
-
-            return View("Invitation", model);
+            return View("Invitation", invite);
         }
 
         public async Task<IActionResult> Logout()
         {
             await signInManager.SignOutAsync();
-            return View("Logout");
+            return RedirectToAction("Index", "Home");
         }
     }
 }
