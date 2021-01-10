@@ -1,8 +1,21 @@
 ﻿@{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Ship Configurator";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<h1 class="display-4">Welcome to the Ship Configurator.</h1>
+<div class="row">
+    <div class="col-md-12">
+        @if (User.IsInRole("Administrator"))
+        {
+            <a asp-action="Invite" asp-controller="Account" class="btn btn-primary">Invite</a>
+        } 
+        @if (User.IsInRole("Visitor"))
+        {
+            <a asp-action="Index" asp-controller="Ship" class="btn btn-primary">Configure Ship</a>
+        }
+        @if (!User.Identity.IsAuthenticated)
+        {
+            <a asp-controller="Account" asp-action="Login" class="btn btn-primary">Login</a>
+        }
+    </div>
 </div>

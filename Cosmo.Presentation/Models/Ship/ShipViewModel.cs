@@ -5,9 +5,11 @@ namespace Cosmo.Presentation.Models.Ship
 {
     public class ShipViewModel
     {
-        public Hull EquippedHull { get; set; }
-        public List<Wing> EquippedWings { get; set; }
-        public List<Weapon> EquippedWeapons { get; set; }
-        public Engine EquippedEngine { get; set; }
+
+        public int WingAmount { get; set; }
+        public int EquippedHull { get; set; }
+        public List<int> EquippedWings { get; set; }
+        public List<int> EquippedWeapons { get; set; }
+        public int EquippedEngine { get; set; }
     }
 }

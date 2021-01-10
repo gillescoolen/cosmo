@@ -5,7 +5,7 @@ namespace Cosmo.Presentation.Models.Ship
 {
     public class HullEngineViewModel : ShipViewModel
     {
-        public IEnumerable<Hull> Hulls;
-        public IEnumerable<Engine> Engines;
+        public IEnumerable<Hull> Hulls { get; set; }
+        public IEnumerable<Engine> Engines { get; set; }
     }
 }

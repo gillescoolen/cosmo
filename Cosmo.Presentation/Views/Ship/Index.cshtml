@@ -4,10 +4,23 @@
     ViewData["Title"] = "Hull & Engine";
 }
 
-<div class="text-center">
-    <form asp-action="ConfigureBase">
-        <select class="form-control" asp-for="EquippedHull" asp-items="@(new SelectList(Model.Hulls,"Id","Name"))"></select>
-        <select class="form-control" asp-for="EquippedEngine" asp-items="@(new SelectList(Model.Engines,"Id","Name"))"></select>
-        <button type="submit" class="btn btn-primary">Next</button>
-    </form>
+<h1>@ViewData["Title"]</h1>
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="ConfigureBase">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <input type="hidden" asp-for="EquippedWings"/>
+            <input type="hidden" asp-for="EquippedWeapons"/>
+            <label>Hull Type</label>
+            <select class="form-control" asp-for="EquippedHull" asp-items="@(new SelectList(Model.Hulls,"Id","Name"))"></select>
+            <label>Engine Type</label>
+            <select class="form-control" asp-for="EquippedEngine" asp-items="@(new SelectList(Model.Engines,"Id","Name"))"></select>
+            <label>Amount of Wings</label>
+            <select class="form-control" asp-for="WingAmount">
+                <option value="2">2</option>
+                <option value="4">4</option>
+            </select>
+            <button type="submit" class="btn btn-primary">Next</button>
+        </form>
+    </div>
 </div>
