@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cosmo.Presentation", "Cosmo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cosmo.Domain", "Cosmo.Domain\Cosmo.Domain.csproj", "{7F002F26-2CB7-4231-9573-46674A1B6B07}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cosmo.Test", "Cosmo.Test\Cosmo.Test.csproj", "{AC9FD5B0-EBB0-448C-851A-5C9FBA788127}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,5 +60,17 @@ Global
 		{7F002F26-2CB7-4231-9573-46674A1B6B07}.Release|x64.Build.0 = Release|Any CPU
 		{7F002F26-2CB7-4231-9573-46674A1B6B07}.Release|x86.ActiveCfg = Release|Any CPU
 		{7F002F26-2CB7-4231-9573-46674A1B6B07}.Release|x86.Build.0 = Release|Any CPU
+		{AC9FD5B0-EBB0-448C-851A-5C9FBA788127}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC9FD5B0-EBB0-448C-851A-5C9FBA788127}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC9FD5B0-EBB0-448C-851A-5C9FBA788127}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{AC9FD5B0-EBB0-448C-851A-5C9FBA788127}.Debug|x64.Build.0 = Debug|Any CPU
+		{AC9FD5B0-EBB0-448C-851A-5C9FBA788127}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AC9FD5B0-EBB0-448C-851A-5C9FBA788127}.Debug|x86.Build.0 = Debug|Any CPU
+		{AC9FD5B0-EBB0-448C-851A-5C9FBA788127}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC9FD5B0-EBB0-448C-851A-5C9FBA788127}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC9FD5B0-EBB0-448C-851A-5C9FBA788127}.Release|x64.ActiveCfg = Release|Any CPU
+		{AC9FD5B0-EBB0-448C-851A-5C9FBA788127}.Release|x64.Build.0 = Release|Any CPU
+		{AC9FD5B0-EBB0-448C-851A-5C9FBA788127}.Release|x86.ActiveCfg = Release|Any CPU
+		{AC9FD5B0-EBB0-448C-851A-5C9FBA788127}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
