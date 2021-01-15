@@ -21,9 +21,9 @@ namespace Cosmo.Presentation.Models.ShipConfig
 
         public new IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            var service = (IRulesValidationService) validationContext.GetService(typeof(IRulesValidationService))!;
-            var httpContext = (IHttpContextAccessor) validationContext.GetService(typeof(IHttpContextAccessor))!;
-            var message = service!.Initialize(WingsWithWeapons, HullId, EngineId);
+            var service = (IRulesValidationService) validationContext.GetService(typeof(IRulesValidationService));
+            var httpContext = (IHttpContextAccessor) validationContext.GetService(typeof(IHttpContextAccessor));
+            var message = service.Initialize(WingsWithWeapons, HullId, EngineId);
 
             if (message != null)
             {

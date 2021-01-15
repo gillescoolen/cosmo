@@ -4,12 +4,11 @@ namespace Cosmo.Presentation.Models.Account
 {
     public class InviteViewModel
     {
-
-        [Required]
+        [Required(AllowEmptyStrings = false)]
         [StringLength(100)]
         public string Username { get; set; }
 
-        [Required]
+        [Required(AllowEmptyStrings = false)]
         [RegularExpression(@"[ABCZ]")]
         public string License { get; set; }
     }

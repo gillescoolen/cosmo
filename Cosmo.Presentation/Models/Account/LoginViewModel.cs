@@ -4,11 +4,11 @@ namespace Cosmo.Presentation.Models.Account
 {
     public class LoginViewModel
     {
-        [Required]
+        [Required(AllowEmptyStrings = false)]
         [StringLength(100)]
         public string Username { get; set; }
-        
-        [Required]
+
+        [Required(AllowEmptyStrings = false)]
         [StringLength(100)]
         public string Password { get; set; }
     }

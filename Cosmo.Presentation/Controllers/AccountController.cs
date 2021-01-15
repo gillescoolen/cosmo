@@ -57,6 +57,10 @@ namespace Cosmo.Presentation.Controllers
         {
             if (!ModelState.IsValid) return View();
 
+            var exists = await userManager.FindByNameAsync(model.Username);
+
+            if (exists != null) return View("Invite");
+
             var user = new IdentityUser
             {
                 UserName = model.Username,

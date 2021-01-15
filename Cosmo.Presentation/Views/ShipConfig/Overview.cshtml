@@ -39,7 +39,7 @@
 <div class="row my-4">
     <div class="col-md-6">
         <h3>Hull</h3>
-        <ul class="list-group my-2">
+        <ul class="list-group my-4">
             <li class="list-group-item list-group-item-dark"><b>Type: @Model.Ship.Hull.Name</b></li>
             <li class="list-group-item">Takeoff Mass: @((int) Model.Ship.Hull.DefaultMaximumTakeOffMass) KG </li>
             <li class="list-group-item">Speed: @Model.Ship.Hull.Speed</li>
@@ -50,7 +50,7 @@
     </div>
     <div class="col-md-6">
         <h3>Engine</h3>
-        <ul class="list-group my-2">
+        <ul class="list-group my-4">
             <li class="list-group-item list-group-item-dark"><b>Type: @Model.Ship.Engine.Name</b></li>
             <li class="list-group-item">Weigth: @Model.Ship.Engine.Weight KG</li>
             <li class="list-group-item">Energy production: @Model.Ship.Engine.Energy</li>
@@ -63,7 +63,7 @@
         <h3>Wings</h3>
             @foreach (var wing in Model.Ship.Wings)
             {
-                <ul class="list-group my-2">
+                <ul class="list-group my-4">
                     <li class="list-group-item list-group-item-dark"><b>Type: @wing.Name</b></li>
                     <li class="list-group-item">Energy: @wing.Energy </li>
                     <li class="list-group-item">Agility: @wing.Agility</li>
@@ -79,7 +79,7 @@
             {
                 @foreach (var weapon in @wing.Hardpoint)
                 {
-                    <ul class="list-group my-2">
+                    <ul class="list-group my-4">
                         <li class="list-group-item list-group-item-dark"><b>Type: @weapon.Name</b></li>
                         <li class="list-group-item">Weigth: @weapon.Weight KG</li>
                         <li class="list-group-item">Damage type: @weapon.DamageType</li>

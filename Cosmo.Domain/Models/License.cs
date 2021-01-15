@@ -5,6 +5,6 @@ namespace Cosmo.Domain
         A = 1000,
         B = 1500,
         C = 2000,
-        Z = 0
+        Z = 1000000000
     }
 }
