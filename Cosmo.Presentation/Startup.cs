@@ -9,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Cosmo.Domain.Data;
 using Cosmo.Domain;
 using GalacticSpaceTransitAuthority;
+using Domain.Services;
 
 namespace Cosmo.Presentation
 {
@@ -62,15 +63,17 @@ namespace Cosmo.Presentation
             {
                 // Cookie settings
                 options.Cookie.HttpOnly = true;
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(120);
 
                 options.LoginPath = "/Account/Login";
                 options.AccessDeniedPath = "/Account/Login";
                 options.LogoutPath = "/Account/Logout";
                 options.SlidingExpiration = true;
+                options.Cookie.Name = ".AspNetCore.Cookies";
             });
 
             services.AddScoped<ISpaceTransitAuthority, SpaceTransitAuthority>();
+            services.AddScoped<IRulesValidationService, RulesValidationService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

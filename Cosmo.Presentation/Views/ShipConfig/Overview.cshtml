@@ -1,0 +1,91 @@
+@model Cosmo.Presentation.Models.ShipConfig.OverviewViewModel
+
+@{
+    ViewData["Title"] = "Overview";
+}
+
+<div class="row">
+    <div class="col-md-12 my-4">
+        <h3>Ship</h3>
+        <ul class="list-group my-2">
+            <li class="list-group-item">Agility: @Model.Ship.Agility</li>
+            <li class="list-group-item">Speed: @Model.Ship.Speed</li>
+            <li class="list-group-item">Total Energy: @Model.TotalEnergy</li>
+            <li class="list-group-item"> Total Weight: @Model.TotalWeight</li>
+        </ul>
+    </div>
+    <div class="col-md-12 my-4">
+        <form asp-action="Finish">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="HullId" value="@Model.HullId" class="form-control" />
+            <input type="hidden" asp-for="EngineId" value="@Model.EngineId" class="form-control" />
+            <input type="hidden" asp-for="WingAmount" value="@Model.WingAmount" class="form-control" />          
+
+            @for (var i = 0; i < Model.WingsWithWeapons.Count; ++i)
+            {
+                <input type="hidden" asp-for="WingsWithWeapons[i].WingId" value="@Model.WingsWithWeapons[i].WingId" class="form-control" />
+
+                for (var c = 0; c < Model.WingsWithWeapons[i].WeaponIds.Count; ++c)
+                {
+                    <input hidden asp-for="WingsWithWeapons[i].WeaponIds[c]" value="@Model.WingsWithWeapons[i].WeaponIds[c]"/>
+                }
+            }
+
+            <button type="submit" class="btn btn-primary btn-lg btn-block">Confirm Configuration</button>
+        </form>
+    </div>
+</div>
+
+<div class="row my-4">
+    <div class="col-md-6">
+        <h3>Hull</h3>
+        <ul class="list-group my-2">
+            <li class="list-group-item list-group-item-dark"><b>Type: @Model.Ship.Hull.Name</b></li>
+            <li class="list-group-item">Takeoff Mass: @((int) Model.Ship.Hull.DefaultMaximumTakeOffMass) KG </li>
+            <li class="list-group-item">Speed: @Model.Ship.Hull.Speed</li>
+            <li class="list-group-item">Agility: @Model.Ship.Hull.Agility</li>
+            <li class="list-group-item">Heat shielding: @Model.Ship.Hull.HeatShielding</li>
+            <li class="list-group-item">Cold shielding: @Model.Ship.Hull.ColdShielding</li>
+        </ul>
+    </div>
+    <div class="col-md-6">
+        <h3>Engine</h3>
+        <ul class="list-group my-2">
+            <li class="list-group-item list-group-item-dark"><b>Type: @Model.Ship.Engine.Name</b></li>
+            <li class="list-group-item">Weigth: @Model.Ship.Engine.Weight KG</li>
+            <li class="list-group-item">Energy production: @Model.Ship.Engine.Energy</li>
+        </ul>
+    </div>
+</div>
+
+<div class="row my-4">
+    <div class="col-md-6">
+        <h3>Wings</h3>
+            @foreach (var wing in Model.Ship.Wings)
+            {
+                <ul class="list-group my-2">
+                    <li class="list-group-item list-group-item-dark"><b>Type: @wing.Name</b></li>
+                    <li class="list-group-item">Energy: @wing.Energy </li>
+                    <li class="list-group-item">Agility: @wing.Agility</li>
+                    <li class="list-group-item">Speed: @wing.Speed </li>
+                    <li class="list-group-item">Hardpoints: @wing.NumberOfHardpoints </li>
+                </ul>
+            }
+    </div>
+
+    <div class="col-md-6">
+        <h3>Weapons:</h3>
+            @foreach (var wing in Model.Ship.Wings)
+            {
+                @foreach (var weapon in @wing.Hardpoint)
+                {
+                    <ul class="list-group my-2">
+                        <li class="list-group-item list-group-item-dark"><b>Type: @weapon.Name</b></li>
+                        <li class="list-group-item">Weigth: @weapon.Weight KG</li>
+                        <li class="list-group-item">Damage type: @weapon.DamageType</li>
+                        <li class="list-group-item">Energy usage: @weapon.EnergyDrain</li>
+                    </ul>
+                }
+            }
+    </div>
+</div>

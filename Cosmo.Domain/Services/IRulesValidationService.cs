@@ -3,22 +3,22 @@ using Domain.Models;
 
 namespace Domain.Services
 {
-    public interface ICustomValidationService
+    public interface IRulesValidationService
     {
-        string Initialize(IEnumerable<ConfiguredWing> configuredWings, int hullId, int engineId);
+        string Initialize(IEnumerable<WingWithWeapons> configuredWings, int hullId, int engineId);
+        double CalculateEnergyUsed();
+        double CalculateEnergyAvailable();
+        double CalculateWeight();
         string HullExists(int id);
         string EngineExists(int id);
         string WingExists(int id);
         string WeaponExists(int id);
-        string HasNullifier(ConfiguredWing configuredWing);
-        string CheckExceedsWingCapacity(ConfiguredWing configuredWing);
+        string HasNullifier(WingWithWeapons configuredWing);
+        string CheckExceedsWingCapacity(WingWithWeapons configuredWing);
         string CheckCombinations();
         string CheckWeightExceeded();
         string CheckEnergyExceeded();
         string CheckExplosionDanger();
         string CheckExceededKineticDifference();
-        double GetWeight();
-        double GetEnergyAvailable();
-        double GetEnergyUsed();
     }
 }

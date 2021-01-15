@@ -6,25 +6,23 @@ using GalacticSpaceTransitAuthority;
 
 namespace Domain.Services
 {
-    public class CustomValidationService : ICustomValidationService
+    public class RulesValidationService : IRulesValidationService
     {
         private readonly ISpaceTransitAuthority spaceTransitAuthority;
-        private readonly ICalculationService calculationService;
         private readonly List<Weapon> weapons = new List<Weapon>();
         private readonly List<Wing> wings = new List<Wing>();
         private Hull? hull;
         private Engine? engine;
 
-        public CustomValidationService(ISpaceTransitAuthority spaceTransitAuthority, ICalculationService calculationService)
+        public RulesValidationService(ISpaceTransitAuthority spaceTransitAuthority)
         {
             this.spaceTransitAuthority = spaceTransitAuthority;
-            this.calculationService = calculationService;
         }
 
-        public string? Initialize(IEnumerable<ConfiguredWing> configuredWings, int hullId, int engineId)
+        public string? Initialize(IEnumerable<WingWithWeapons> configuredWings, int hullId, int engineId)
         {
-            var wingList = configuredWings.ToList();
-            if (wingList.ToList().Count % 2 != 0) return "You must equip an even amount of wings!";
+            var wings = configuredWings.ToList();
+            if (wings.ToList().Count % 2 != 0) return "You must equip an even amount of wings!";
             
             var engineMessage = EngineExists(engineId);
             if (engineMessage != null) return engineMessage;
@@ -32,28 +30,60 @@ namespace Domain.Services
             var hullMessage = HullExists(hullId);
             if (hullMessage != null) return hullMessage;
 
-            foreach (var configuredWing in wingList)
+            foreach (var wing in wings)
             {
-                foreach (var message in configuredWing.WeaponIds.Select(WeaponExists).Where(m => m != null))
+                foreach (var message in wing.WeaponIds.Select(WeaponExists).Where(m => m != null))
                     return message;
 
-                var wingMessage = WingExists(configuredWing.WingId);
+                var wingMessage = WingExists(wing.WingId);
                 if (wingMessage != null) return wingMessage;
 
-                var nullifierMessage = HasNullifier(configuredWing);
+                var nullifierMessage = HasNullifier(wing);
                 if (nullifierMessage != null) return nullifierMessage;
 
-                var wingCapacityMessage = CheckExceedsWingCapacity(configuredWing);
+                var wingCapacityMessage = CheckExceedsWingCapacity(wing);
                 if (wingCapacityMessage != null) return wingCapacityMessage;
 
-                weapons.AddRange(spaceTransitAuthority.GetWeapons().Where(w => configuredWing.WeaponIds.Contains(w.Id)).ToList());
-                wings.Add(spaceTransitAuthority.GetWings().First(w => w.Id == configuredWing.WingId));
+                weapons.AddRange(spaceTransitAuthority.GetWeapons().Where(w => wing.WeaponIds.Contains(w.Id)).ToList());
+                this.wings.Add(spaceTransitAuthority.GetWings().First<Wing>(w => w.Id == wing.WingId));
             }
 
             engine = spaceTransitAuthority.GetEngines().First(e => e.Id == engineId);
             hull = spaceTransitAuthority.GetHulls().First(h => h.Id == hullId);
 
             return null;
+        }
+        public double CalculateEnergyUsed()
+        {
+            var energy = 0.0;
+
+            weapons.ForEach(w =>
+            {
+                var sameWeapons = weapons.Count(countWeapon => countWeapon.DamageType == w.DamageType);
+                energy += sameWeapons >= 2 ? w.EnergyDrain * 0.8 : w.EnergyDrain;
+            });
+
+            return energy;
+        }
+
+        public double CalculateEnergyAvailable()
+        {
+            return wings.Sum(w => w.Energy) + engine!.Energy;
+        }
+
+        public double CalculateWeight()
+        {
+            double weight = 0;
+            weight += engine!.Weight;
+            weight += wings.Sum(w => w.Weight);
+
+            weapons.ForEach(w =>
+            {
+                var twoStatisWeaponsUsed = weapons.Count(countWeapon => countWeapon.DamageType == DamageTypeEnum.Statis);
+                weight += twoStatisWeaponsUsed >= 2 ? w.Weight * 0.85 : w.Weight;
+            });
+
+            return weight;
         }
 
         public string? HullExists(int id)
@@ -86,7 +116,7 @@ namespace Domain.Services
                 : null;
         }
 
-        public string? HasNullifier(ConfiguredWing configuredWing)
+        public string? HasNullifier(WingWithWeapons configuredWing)
         {
             var wingWeapons = spaceTransitAuthority.GetWeapons().Where(w => configuredWing.WeaponIds.Contains(w.Id))
                 .ToList();
@@ -97,7 +127,7 @@ namespace Domain.Services
                 : null;
         }
 
-        public string? CheckExceedsWingCapacity(ConfiguredWing configuredWing)
+        public string? CheckExceedsWingCapacity(WingWithWeapons configuredWing)
         {
             var wing = spaceTransitAuthority.GetWings().First(w => w.Id == configuredWing.WingId);
             return configuredWing.WeaponIds.Count > wing.NumberOfHardpoints
@@ -122,14 +152,14 @@ namespace Domain.Services
 
         public string? CheckWeightExceeded()
         {
-            return GetWeight() > spaceTransitAuthority.CheckActualHullCapacity(hull)
+            return CalculateWeight() > spaceTransitAuthority.CheckActualHullCapacity(hull)
                 ? $"The selected hull {hull!.Name} cannot support the current weight"
                 : null;
         }
 
         public string? CheckEnergyExceeded()
         {
-            return GetEnergyUsed() > engine!.Energy
+            return CalculateEnergyUsed() > engine!.Energy
                 ? $"Engine {engine.Name} does not supply enough power to support the selected weapons"
                 : null;
         }
@@ -159,21 +189,6 @@ namespace Domain.Services
             return max - min >= 35
                 ? "Kinetic energy difference between multiple kinetic weapons cannot exceed 34"
                 : null;
-        }
-
-        public double GetWeight()
-        {
-            return calculationService.CalculateWeight(wings, weapons, engine);
-        }
-
-        public double GetEnergyAvailable()
-        {
-            return calculationService.CalculateEnergyAvailable(wings, engine);
-        }
-        
-        public double GetEnergyUsed()
-        {
-            return calculationService.CalculateEnergyUsed(weapons);
         }
     }
 }

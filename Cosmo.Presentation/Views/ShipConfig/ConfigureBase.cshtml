@@ -1,4 +1,4 @@
-@model Cosmo.Presentation.Models.Ship.HullEngineViewModel
+@model Cosmo.Presentation.Models.ShipConfig.HullEngineViewModel
 
 @{
     ViewData["Title"] = "Hull & Engine";
@@ -9,12 +9,10 @@
     <div class="col-md-12">
         <form asp-action="ConfigureBase">
             <div asp-validation-summary="All" class="text-danger"></div>
-            <input type="hidden" asp-for="EquippedWings"/>
-            <input type="hidden" asp-for="EquippedWeapons"/>
             <label>Hull Type</label>
-            <select class="form-control" asp-for="EquippedHull" asp-items="@(new SelectList(Model.Hulls,"Id","Name"))"></select>
+            <select class="form-control" asp-for="HullId" asp-items="@(new SelectList(Model.Hulls,"Id","Name"))"></select>
             <label>Engine Type</label>
-            <select class="form-control" asp-for="EquippedEngine" asp-items="@(new SelectList(Model.Engines,"Id","Name"))"></select>
+            <select class="form-control" asp-for="EngineId" asp-items="@(new SelectList(Model.Engines,"Id","Name"))"></select>
             <label>Amount of Wings</label>
             <select class="form-control" asp-for="WingAmount">
                 <option value="2">2</option>

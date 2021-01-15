@@ -11,7 +11,7 @@
         } 
         @if (User.IsInRole("Visitor"))
         {
-            <a asp-action="Index" asp-controller="Ship" class="btn btn-primary">Configure Ship</a>
+            <a asp-action="ConfigureBase" asp-controller="ShipConfig" class="btn btn-primary">Configure Ship</a>
         }
         @if (!User.Identity.IsAuthenticated)
         {

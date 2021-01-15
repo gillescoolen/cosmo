@@ -1,0 +1,33 @@
+@model Cosmo.Presentation.Models.ShipConfig.WingsWeaponsViewModel
+
+@{
+    ViewData["Title"] = "Wings & Weapons";
+}
+
+<h1>@ViewData["Title"]</h1>
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="ConfigureAccessoires">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(m => m.HullId)
+            @Html.HiddenFor(m => m.EngineId)
+            @Html.HiddenFor(m => m.WingAmount)
+
+             @for (var i = 0; i < Model.WingAmount; ++i)
+            {
+                <div class="mb-3"> 
+                    <label class="control-label">Wing @(i + 1)</label>
+                    <select asp-for="WingsWithWeapons[i].WingId" asp-items="@(new SelectList(Model.WingsSelectList, "Value", "Text", Model.WingsWithWeapons[i].WingId))" class="form-control"></select>
+                    <span asp-validation-for="WingsWithWeapons[i].WingId" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label class="control-label">Weapons</label>
+                    <select asp-for="WingsWithWeapons[i].WeaponIds" asp-items="@(new SelectList(Model.Weapons, "Id", "Name", Model.WingsWithWeapons[i].WeaponIds))" class="form-control"></select>
+                    <span asp-validation-for="WingsWithWeapons[i].WeaponIds" class="text-danger"></span>
+                </div>
+            }
+
+            <button type="submit" class="btn btn-primary">Next</button>
+        </form>
+    </div>
+</div>
