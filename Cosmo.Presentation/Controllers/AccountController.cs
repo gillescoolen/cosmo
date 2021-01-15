@@ -2,8 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
-using Cosmo.Domain;
 using Cosmo.Presentation.Models.Account;
 using System;
 using System.Security.Claims;
@@ -12,9 +10,9 @@ namespace Cosmo.Presentation.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly UserManager<User> userManager;
-        private readonly SignInManager<User> signInManager;
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
+        private readonly UserManager<IdentityUser> userManager;
+        private readonly SignInManager<IdentityUser> signInManager;
+        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
@@ -59,7 +57,7 @@ namespace Cosmo.Presentation.Controllers
         {
             if (!ModelState.IsValid) return View();
 
-            var user = new User
+            var user = new IdentityUser
             {
                 UserName = model.Username,
                 NormalizedUserName = model.Username,

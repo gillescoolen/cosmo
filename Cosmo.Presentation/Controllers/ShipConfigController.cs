@@ -20,12 +20,12 @@ namespace Cosmo.Presentation.Controllers
     public class ShipConfigController : Controller
     {
         private readonly ISpaceTransitAuthority spaceTransitAuthority;
-        private readonly UserManager<User> userManager;
-        private readonly SignInManager<User> signInManager;
+        private readonly UserManager<IdentityUser> userManager;
+        private readonly SignInManager<IdentityUser> signInManager;
 
         private readonly IRulesValidationService rulesValidationService;
 
-        public ShipConfigController(ISpaceTransitAuthority spaceTransitAuthority, UserManager<User> userManager, SignInManager<User> signInManager, IRulesValidationService rulesValidationService)
+        public ShipConfigController(ISpaceTransitAuthority spaceTransitAuthority, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IRulesValidationService rulesValidationService)
         {
             this.spaceTransitAuthority = spaceTransitAuthority;
             this.userManager = userManager;

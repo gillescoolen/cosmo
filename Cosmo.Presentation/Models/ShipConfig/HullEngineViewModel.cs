@@ -16,8 +16,10 @@ namespace Cosmo.Presentation.Models.ShipConfig
         
         [Required]
         public int EngineId { get; set; }
-        
+
         [Required]
+        [Range(2, 8)]
+        [RegularExpression(@"^\d*[02468]$", ErrorMessage = "You need an even amount of wings")]
         public int WingAmount { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

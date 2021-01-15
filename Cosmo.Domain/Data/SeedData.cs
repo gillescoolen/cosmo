@@ -25,14 +25,14 @@ namespace Cosmo.Domain.Data
             await context.Roles.AddAsync(administrator);
             await context.Roles.AddAsync(visitor);
 
-            var user = new User
+            var user = new IdentityUser
             {
                 UserName = "Admin",
                 NormalizedUserName = "Admin",
                 SecurityStamp = Guid.NewGuid().ToString("D")
             };
 
-            var hasher = new PasswordHasher<User>();
+            var hasher = new PasswordHasher<IdentityUser>();
             user.PasswordHash = hasher.HashPassword(user, "password");
 
             await context.Users.AddAsync(user);

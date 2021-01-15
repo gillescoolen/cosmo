@@ -89,7 +89,7 @@ namespace Domain.Services
         public string? HullExists(int id)
         {
             return spaceTransitAuthority.GetHulls().FirstOrDefault(h => h.Id == id) == null
-                ? $"Hull {id} does not exist"
+                ? $"Hull {id} does not exist."
                 : null;
         }
 
@@ -98,21 +98,21 @@ namespace Domain.Services
             var engine = spaceTransitAuthority.GetEngines().FirstOrDefault(e => e.Id == id) == null;
 
             return engine
-                ? $"Engine {id} does not exist"
+                ? $"Engine {id} does not exist."
                 : null;
         }
 
         public string? WingExists(int id)
         {
             return spaceTransitAuthority.GetWings().FirstOrDefault(w => w.Id == id) == null
-                ? $"Wing {id} does not exist"
+                ? $"Wing {id} does not exist."
                 : null;
         }
 
         public string? WeaponExists(int id)
         {
             return spaceTransitAuthority.GetWeapons().FirstOrDefault(w => w.Id == id) == null
-                ? $"Weapon {id} does not exist"
+                ? $"Weapon {id} does not exist."
                 : null;
         }
 
@@ -123,7 +123,7 @@ namespace Domain.Services
             var hasNullifier = wingWeapons.FirstOrDefault(w => w.Name == "Nullifier");
 
             return wingWeapons.Count == 1 && hasNullifier != null
-                ? "The nullifier weapon cannot be on a wing unaccompanied"
+                ? "The Nullifier weapon cannot sit on a wing unaccompanied."
                 : null;
         }
 
@@ -131,7 +131,7 @@ namespace Domain.Services
         {
             var wing = spaceTransitAuthority.GetWings().First(w => w.Id == configuredWing.WingId);
             return configuredWing.WeaponIds.Count > wing.NumberOfHardpoints
-                ? $"Wing {wing.Name} only has {wing.NumberOfHardpoints} slot(s)"
+                ? $"Wing {wing.Name} only has {wing.NumberOfHardpoints} slot(s)."
                 : null;
         }
 
@@ -153,21 +153,21 @@ namespace Domain.Services
         public string? CheckWeightExceeded()
         {
             return CalculateWeight() > spaceTransitAuthority.CheckActualHullCapacity(hull)
-                ? $"The selected hull {hull!.Name} cannot support the current weight"
+                ? $"The {hull!.Name} cannot support the current weight."
                 : null;
         }
 
         public string? CheckEnergyExceeded()
         {
             return CalculateEnergyUsed() > engine!.Energy
-                ? $"Engine {engine.Name} does not supply enough power to support the selected weapons"
+                ? $"The {engine.Name} does not supply enough power to support the selected gear."
                 : null;
         }
 
         public string? CheckExplosionDanger()
         {
             return engine!.Name == "Intrepid Class" && weapons.FirstOrDefault(w => w.Id == 9) != null
-                ? "The selected engine Intrepid Class and weapon Imploder may implode, please choose another engine/weapon combination"
+                ? "The Intrepid Class egine and Imploder can cause undesired behaviour. Please choose another engine/weapon combination."
                 : null;
         }
 
@@ -178,7 +178,7 @@ namespace Domain.Services
             switch (kineticWeapons.Count)
             {
                 case 1 when kineticWeapons[0].EnergyDrain >= 35:
-                    return "A single kinetic weapon cannot drain more than 34 energy";
+                    return "A single kinetic weapon cannot drain more than 34YW";
                 case 0:
                     return null;
             }
@@ -187,7 +187,7 @@ namespace Domain.Services
             var max = kineticWeapons.Max(k => k.EnergyDrain);
 
             return max - min >= 35
-                ? "Kinetic energy difference between multiple kinetic weapons cannot exceed 34"
+                ? "Kinetic energy difference between weapons cannot exceed 34YW."
                 : null;
         }
     }
